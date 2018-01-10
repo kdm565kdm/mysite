@@ -19,4 +19,5 @@ from weather import views
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path(r'index/',views.index),
+    #path(r'ajax/',views.ajax),
 ]

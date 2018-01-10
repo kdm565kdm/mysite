@@ -28,34 +28,50 @@ class weather:
             date = day.xpath('h1/text()')[0].strip()
             rain = day.xpath('p[1]/text()')[0]
             if rain.find('晴') != -1:
+                bg_weather = 'sun'
                 icon = '<img src="/static/images/weather_icons/sun.png" class="img-responsive">'
             elif rain.find('云') != -1:
+                bg_weather = 'cloud'
                 icon = '<img src="/static/images/weather_icons/has_cloud.png" class="img-responsive">'
             elif rain.find('阴') != -1:
+                bg_weather = 'shadow'
                 icon = '<img src="/static/images/weather_icons/shadow.png" class="img-responsive">'
             elif rain.find('雨') != -1:
                 if rain.find('小雨') != -1:
+                    bg_weather = 'rain'
                     icon = '<img src="/static/images/weather_icons/small_rain.png" class="img-responsive">'
                 elif rain.find('中雨') != -1:
+                    bg_weather = 'rain'
                     icon = '<img src="/static/images/weather_icons/middle_rain.png" class="img-responsive">'
                 elif rain.find('大雨') != -1:
+                    bg_weather = 'rain'
                     icon = '<img src="/static/images/weather_icons/big_rain.png" class="img-responsive">'
                 elif rain.find('暴雨') != -1:
+                    bg_weather = 'rain'
                     icon = '<img src="/static/images/weather_icons/large_rain.png" class="img-responsive">'
                 elif rain.find('雷') != -1:
+                    bg_weather = 'rain'
                     icon = '<img src="/static/images/weather_icons/rain_lighting.png" class="img-responsive">'
                 else:
+                    bg_weather = 'rain'
                     icon = '<img src="/static/images/weather_icons/rain_lighting.png" class="img-responsive">'
             elif rain.find('雪') != -1:
+                bg_weather = 'snow'
                 icon = '<img src="/static/images/weather_icons/snow.png" class="img-responsive">'
             else:
+                bg_weather = 'sun'
                 icon = '<img src="/static/images/weather_icons/sun.png" class="img-responsive">'
+            temperature_c = day.xpath('p[2]/i/text()')[0]
             try:
                 temperature_a = day.xpath('p[2]/span/text()')[0]
             except:
-                temperature_a = '0℃'
-            temperature_c = day.xpath('p[2]/i/text()')[0]
-            temperature = temperature_a+'~'+temperature_c
+                temperature_a = temperature_c
+
+
+            temperature = temperature_a+'\t~\t'+temperature_c
+            tem = temperature.strip('℃')
+            max_tem = tem.split('~')[0]
+            min_tem = tem.split('~')[1]
             wind = day.xpath('p[3]/em/span[1]/@title')[0]
             wind_degree = day.xpath('p[3]/i/text()')[0]
             self.infos = []
@@ -65,6 +81,10 @@ class weather:
             self.infos.append(temperature)
             self.infos.append(wind)
             self.infos.append(wind_degree)
+            
+            self.infos.append( max_tem)
+            self.infos.append(min_tem)
+            self.infos.append(bg_weather)
             self.weather_dic.append(self.infos)
         return self.weather_dic
 
@@ -77,26 +97,31 @@ class infos_io():
         content = json.loads(json_data)
         if isinstance(self.city,str) == True:
             area = content[self.city]
-            print(area)
             return area
 
-
+#local = True
 def index(request):
-    if request.method == "POST":
-        fp = open('E:/python_spider/area_code.json','r')
+    #global local
+    fp = open('E:/python_spider/area_code.json','r')
 
-        headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '  
-                        'Chrome/63.0.3239.108 Safari/537.36'}
-        #weather.weather_dic = {}
-        city = request.POST.get("city",None)
-        #infos_io = infos_io(fp, city)
+    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                             'Chrome/63.0.3239.108 Safari/537.36'}
+    if request.method == "POST":
+        city = request.POST.get("city", None)
+        #if local ==True:
+            #city = request.POST.get("local")
+            #local = False
         try:
             area_code = infos_io(fp, city).parse_json()
         except:
             return render(request, "error.html", )
+        #print(city)
         url = 'http://www.weather.com.cn/weather/{}.shtml'.format(area_code)
         weather_dic = weather(url,headers).get_weather()
-        print(weather_dic[0])
         fp.close()
-        return render(request, "index.html", {"data": weather_dic,"city":city})
+        return_json = {'city':city, 'detail':weather_dic}
+        #print(weather_dic)
+        #return render(request, "index.html", {"data": weather_dic,"city":city})
+        print(return_json)
+        return HttpResponse(json.dumps(return_json), content_type='application/json')
     return render(request,"index.html",)

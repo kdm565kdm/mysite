@@ -214,9 +214,36 @@ td img{
   z-index: 1;
 }
 /* SOME DEMO STYLES - NOT REQUIRED */
-body,
-html {
-  background:url(../images/bg.jpg) no-repeat;
+.sun{
+  background:url(../images/sun.jpg) no-repeat;
+  background-position: center center;
+  background-size:cover;
+  background-attachment: fixed;
+}
+
+.cloud{
+  background:url(../images/cloud.jpg) no-repeat;
+  background-position: center center;
+  background-size:cover;
+  background-attachment: fixed;
+}
+
+.shadow{
+  background:url(../images/shadow.jpg) no-repeat;
+  background-position: center center;
+  background-size:cover;
+  background-attachment: fixed;
+}
+
+.snow{
+  background:url(../images/snow.jpg) no-repeat;
+  background-position: center center;
+  background-size:cover;
+  background-attachment: fixed;
+}
+
+.rain{
+  background:url(../images/rain.jpg) no-repeat;
   background-position: center center;
   background-size:cover;
   background-attachment: fixed;
@@ -260,6 +287,17 @@ body a:hover {
   background: rgba(10,10,10,0.5);
 }
 
+#a{
+  margin-top: -5%;
+  padding-top: 3%;
+  background: rgba(10,10,10,0.5);
+}
+#canvas{
+
+  height: 200px;
+}
+
+
 #days td{
   font-size: 0.1em;
 
@@ -269,6 +307,10 @@ body a:hover {
   border-bottom:2px solid rgba(0,0,0,0.4);
 }
 
+#canvas{
+  height: 400px;
+  background: rgba(10,10,10,0.5);
+}
 #bottom{
   width: 100%;
   position: fixed;
