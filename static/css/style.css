@@ -244,7 +244,7 @@ td img{
 
 .rain{
   background:url(../images/rain.jpg) no-repeat;
-  background-position: center center;
+  background-position: right center;
   background-size:cover;
   background-attachment: fixed;
 }
@@ -298,10 +298,6 @@ body a:hover {
 }
 
 
-#days td{
-  font-size: 0.1em;
-
-}
 
 #days tr{
   border-bottom:2px solid rgba(0,0,0,0.4);

@@ -137,7 +137,7 @@ $(document).ready(function () {
                             $('#days').html("");
 
                             (function() {for(var i=0, len=details.length; i<len; i++ ){
-                            	var tr = "<tr><td>"+details[i][0]+"</td><td>"+details[i][1]+"</td><td>"+details[i][2]+"</td><td>"+details[i][3]+"</td><td>"+details[i][4]+"</td><td>"+details[i][5]+"</td></tr>";
+                            	var tr = "<tr><td><h6>"+details[i][0]+"</h6></td><td><h6>"+details[i][1]+"</h6></td><td><h6>"+details[i][2]+"</h6></td><td><h6>"+details[i][3]+"</h6></td><td><h6>"+details[i][4]+"</h6></td><td><h6>"+details[i][5]+"</h6></td></tr>";
                             	$('#days').append(tr);
                             	var date = details[i][0].split('（');
                             	dataX.push(date[0]);
@@ -176,8 +176,9 @@ $(document).ready(function () {
                             min =[];
                             dataX = [];
                             (function() {for(var i=0, len=details.length; i<len; i++ ){
-                            	var tr = "<tr><td>"+details[i][0]+"</td><td>"+details[i][1]+"</td><td>"+details[i][2]+"</td><td>"+details[i][3]+"</td><td>"+details[i][4]+"</td><td>"+details[i][5]+"</td></tr>";
-                            	$('#days').append(tr);
+                            	//var tr = "<tr><td>"+details[i][0]+"</td><td>"+details[i][1]+"</td><td>"+details[i][2]+"</td><td>"+details[i][3]+"</td><td>"+details[i][4]+"</td><td>"+details[i][5]+"</td></tr>";
+                            	var tr = "<tr><td><h6>"+details[i][0]+"</h6></td><td><h6>"+details[i][1]+"</h6></td><td><h6>"+details[i][2]+"</h6></td><td><h6>"+details[i][3]+"</h6></td><td><h6>"+details[i][4]+"</h6></td><td><h6>"+details[i][5]+"</h6></td></tr>";
+                                $('#days').append(tr);
                             	var date = details[i][0].split('（');
                             	dataX.push(date[0]);
                             	max.push(details[i][6]);

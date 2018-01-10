@@ -70,8 +70,9 @@ class weather:
 
             temperature = temperature_a+'\t~\t'+temperature_c
             tem = temperature.strip('℃')
-            max_tem = tem.split('~')[0]
-            min_tem = tem.split('~')[1]
+            max_tem_s = tem.split('~')[0]
+            max_tem = max_tem_s.split('℃')[0].strip()
+            min_tem = tem.split('~')[1].strip()
             wind = day.xpath('p[3]/em/span[1]/@title')[0]
             wind_degree = day.xpath('p[3]/i/text()')[0]
             self.infos = []
@@ -99,29 +100,21 @@ class infos_io():
             area = content[self.city]
             return area
 
-#local = True
+
 def index(request):
-    #global local
     fp = open('E:/python_spider/area_code.json','r')
 
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
                              'Chrome/63.0.3239.108 Safari/537.36'}
     if request.method == "POST":
         city = request.POST.get("city", None)
-        #if local ==True:
-            #city = request.POST.get("local")
-            #local = False
         try:
             area_code = infos_io(fp, city).parse_json()
         except:
             return render(request, "error.html", )
-        #print(city)
         url = 'http://www.weather.com.cn/weather/{}.shtml'.format(area_code)
         weather_dic = weather(url,headers).get_weather()
         fp.close()
         return_json = {'city':city, 'detail':weather_dic}
-        #print(weather_dic)
-        #return render(request, "index.html", {"data": weather_dic,"city":city})
-        print(return_json)
         return HttpResponse(json.dumps(return_json), content_type='application/json')
     return render(request,"index.html",)
