@@ -3,10 +3,12 @@ $(document).ready(function () {
 			var lock = true;
 			var city = '天津';
 			var bg_value;
+            
+            var max = [];
+            var min = [];
+            var dataX = [];
 
-    var max = [];
-    var min = [];
-    var dataX = [];
+            var p=0,t=0; 
 		  var trigger = $('.hamburger'),
 		      overlay = $('.overlay'),
 		     isClosed = false;
@@ -15,8 +17,20 @@ $(document).ready(function () {
 		      hamburger_cross();      
 		    });
 
-
-		    	function init_chart(canvas,datax,data1,data2){
+           $(window).scroll(function(e){  
+            p = $(this).scrollTop();  
+              
+            if(t<=p){//下滚  
+                $("#menu").fadeOut();
+            }  
+              
+            else{//上滚  
+                $("#menu").fadeIn();
+            }  
+            setTimeout(function(){t = p;},0);         
+            });
+//折线图函数
+function init_chart(canvas,datax,data1,data2){
         var myChart = echarts.init(canvas);
         var option = {
             title: {
@@ -93,7 +107,10 @@ $(document).ready(function () {
         });
 
     }
-		    function hamburger_cross() {
+
+
+
+	function hamburger_cross() {
 
 		      if (isClosed == true) {          
 		        overlay.hide();
@@ -163,30 +180,58 @@ $(document).ready(function () {
                         data:{'city':city},
                         dataType:'json',
                         success:function (data) {
+
                             $('#city_name').text(data['city']);
-                            var details = data['detail'];
-                            $('#climate').text(details[0][2]);
-                            $('#temperature').text(details[0][3]);
-                            $('#wind_direction').text(details[0][4]);
-                            $('#wind_degree').text(details[0][5]);
-                            bg_value = details[0][8];
-                            $('body').attr('class',bg_value);
-                            $('#days').html("");
-                            max = [];
-                            min =[];
-                            dataX = [];
-                            (function() {for(var i=0, len=details.length; i<len; i++ ){
+                            if (data['detail'] == 'error') {
+                                $('#city_name').attr('class','error');
+
+                        		$('#climate').text('error');
+                                $('#climate').attr('class','error');
+
+                            	$('#temperature').text('error');
+                                $('#temperature').attr('class','error');
+
+                            	$('#wind_direction').text('error');
+                                $('#wind_direction').attr('class','error');
+
+                            	$('#wind_degree').text('error');
+                                $('#wind_degree').attr('class','error');
+                            	$('#days').html("");
+                            	init_chart(canvas,[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]);
+                                $('body').attr('class','error_bg');
+                        	}
+
+                        	else{
+                            	var details = data['detail'];
+                            	$('#city_name').removeClass("error");
+                            	$('#climate').removeClass("error");
+                            	$('#temperature').removeClass("error");
+                            	$('#wind_direction').removeClass("error");
+                            	$('#wind_degree').removeClass("error");
+
+                            	$('#climate').text(details[0][2]);
+                            	$('#temperature').text(details[0][3]);
+                            	$('#wind_direction').text(details[0][4]);
+                            	$('#wind_degree').text(details[0][5]);
+                            	bg_value = details[0][8];
+                            	$('body').attr('class',bg_value);
+                            	$('#days').html("");
+                            	max = [];
+                            	min =[];
+                            	dataX = [];
+                            	(function() {for(var i=0, len=details.length; i<len; i++ ){
                             	//var tr = "<tr><td>"+details[i][0]+"</td><td>"+details[i][1]+"</td><td>"+details[i][2]+"</td><td>"+details[i][3]+"</td><td>"+details[i][4]+"</td><td>"+details[i][5]+"</td></tr>";
-                            	var tr = "<tr><td><h6>"+details[i][0]+"</h6></td><td><h6>"+details[i][1]+"</h6></td><td><h6>"+details[i][2]+"</h6></td><td><h6>"+details[i][3]+"</h6></td><td><h6>"+details[i][4]+"</h6></td><td><h6>"+details[i][5]+"</h6></td></tr>";
-                                $('#days').append(tr);
-                            	var date = details[i][0].split('（');
-                            	dataX.push(date[0]);
-                            	max.push(details[i][6]);
-                            	min.push(details[i][7]);
-                            }
-                        })();
+                            		var tr = "<tr><td><h6>"+details[i][0]+"</h6></td><td><h6>"+details[i][1]+"</h6></td><td><h6>"+details[i][2]+"</h6></td><td><h6>"+details[i][3]+"</h6></td><td><h6>"+details[i][4]+"</h6></td><td><h6>"+details[i][5]+"</h6></td></tr>";
+                                	$('#days').append(tr);
+                            		var date = details[i][0].split('（');
+                            		dataX.push(date[0]);
+                            		max.push(details[i][6]);
+                            		min.push(details[i][7]);
+                            	}
+                        	})();
                             init_chart(canvas,dataX,max,min);
-                    }
+                    		}
+                    		}
 				});
               $('#city').val('');
 		  	hamburger_cross();

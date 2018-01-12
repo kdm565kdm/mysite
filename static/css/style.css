@@ -248,6 +248,13 @@ td img{
   background-size:cover;
   background-attachment: fixed;
 }
+
+.error_bg{
+  background:url(../images/error.jpg) no-repeat;
+  background-position: right center;
+  background-size:cover;
+  background-attachment: fixed;
+}
 body h1,
 body h2,
 body h3,
@@ -257,6 +264,10 @@ body h6 {
   color: rgba(255, 255, 255, 0.9);
   text-shadow: 5px 5px 5px black;
   text-align: center;
+}
+
+.error{
+  color: red;
 }
 p,td{
   text-align: center;
