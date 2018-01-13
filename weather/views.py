@@ -7,7 +7,9 @@ from lxml import etree
 
 from weather import models
 
-
+import os
+currentpath = os.getcwd()
+path = currentpath+"/area_code.json"
 
 
 
@@ -102,7 +104,7 @@ class infos_io():
 
 
 def index(request):
-    fp = open('E:/python_spider/area_code.json','r')
+    fp = open(path,'r',encoding="gb18030")
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '
                              'Chrome/63.0.3239.108 Safari/537.36'}
     if request.method == "POST":
@@ -110,7 +112,6 @@ def index(request):
         try:
             area_code = infos_io(fp, city).parse_json()
         except:
-            #return render(request, "error.html", )
             return_json = {'city':'未找到该城市', 'detail':'error'}
             return HttpResponse(json.dumps(return_json), content_type='application/json')
         url = 'http://www.weather.com.cn/weather/{}.shtml'.format(area_code)
