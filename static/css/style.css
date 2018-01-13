@@ -318,6 +318,14 @@ body a:hover {
   height: 400px;
   background: rgba(10,10,10,0.5);
 }
+
+#top{
+  position: fixed;
+  right: 4%;
+  bottom: 12%;
+
+}
+
 #bottom{
   width: 100%;
   position: fixed;

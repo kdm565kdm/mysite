@@ -5,7 +5,7 @@ import json
 from urllib import request
 from lxml import etree
 
-
+from weather import models
 
 
 

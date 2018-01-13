@@ -9,6 +9,7 @@ $(document).ready(function () {
             var dataX = [];
 
             var p=0,t=0; 
+            $("#top").hide();
 		  var trigger = $('.hamburger'),
 		      overlay = $('.overlay'),
 		     isClosed = false;
@@ -16,16 +17,23 @@ $(document).ready(function () {
 		    trigger.click(function () {
 		      hamburger_cross();      
 		    });
-
+            $("#top").click(function(){
+                $("html").animate({"scrollTop": "0px"},500); //IE,FF
+                $("body").animate({"scrollTop": "0px"},500); //Webkit
+                });
            $(window).scroll(function(e){  
             p = $(this).scrollTop();  
               
             if(t<=p){//下滚  
                 $("#menu").fadeOut();
+                $("#top").fadeIn();
             }  
               
             else{//上滚  
                 $("#menu").fadeIn();
+                if (p==0) {
+                    $("#top").fadeOut();
+                }
             }  
             setTimeout(function(){t = p;},0);         
             });
