@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'weather.apps.WeatherConfig',
-    #'weather',
+    #'weather.apps.WeatherConfig',
+    'weather',
 
 ]
 
