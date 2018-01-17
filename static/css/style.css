@@ -376,7 +376,7 @@ body a:hover {
 
 /*瀑布流外层*/
 .waterfall_outer{
-  width:80%;
+  width:95%;
   margin: 0 auto;
 }
 
@@ -442,9 +442,9 @@ body a:hover {
   -moz-column-count:2; /* Firefox */
   -webkit-column-count:2; /* Safari 和 Chrome */
   column-count:2;
-  -moz-column-gap: 2em;
-  -webkit-column-gap: 2em;
-  column-gap: 2em;
+  -moz-column-gap: 1em;
+  -webkit-column-gap: 1em;
+  column-gap: 1em;
 }
 
 .waterfall_douban{

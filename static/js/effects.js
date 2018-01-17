@@ -87,7 +87,7 @@ $(document).ready(function () {
                 success:function(data){
                 srcs = data['srcs'];
                 (function() {for(var i=0, len=srcs.length; i<len; i++ ){
-                             var tem =  '<div class="water_item"><img src="'+srcs[i]+'"></div>';
+                             var tem =  '<div class="water_item"><a href="'+srcs[i]+'"><img src="'+srcs[i]+'"></a></div>';
                              $('#beauty_pics').append(tem);
 
                          }
@@ -339,7 +339,7 @@ $('[data-toggle="offcanvas"]').click(function () {
             success:function(data){
                 srcs = data['srcs'];
                 (function() {for(var i=0, len=srcs.length; i<len; i++ ){
-                             var tem =  '<div class="water_item"><img src="'+srcs[i]+'"></div>';
+                             var tem =  '<div class="water_item"><a href="'+srcs[i]+'"><img src="'+srcs[i]+'"></a></div>';
                              $('#beauty_pics').append(tem);
 
                          }
