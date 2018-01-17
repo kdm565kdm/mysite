@@ -366,7 +366,9 @@ body a:hover {
 .common{
   background: rgba(150,150,150,0.8);
 }
-
+.douban{
+  background: rgba(55,55,55,0.8);
+}
 #beauty div div img{
   border-radius: 15px 15px;
   box-shadow: 5px 5px 5px;
@@ -399,6 +401,42 @@ body a:hover {
   width: 100%;
 }
 
+.waterfall_douban{
+  -moz-column-count:4; /* Firefox */
+  -webkit-column-count:4; /* Safari 和 Chrome */
+  column-count:4;
+  -moz-column-gap: 1em;
+  -webkit-column-gap: 1em;
+  column-gap: 1em;
+}
+
+.douban_item{
+  padding: 1em;
+  margin: 1em 1em 1em 1em;
+  background: rgba(180,180,180,0.8);
+  border-radius: 15px 15px;
+  box-shadow: 5px 5px 5px black;
+  -moz-page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  break-inside: avoid;
+}
+.douban_item img{
+  width: 100%;
+  margin-bottom:10px;
+  border-radius: 15px 15px;
+  box-shadow: 5px 5px 5px black;
+
+}
+
+#douban_content h3 span:nth-child(2){
+  color: orange;
+  font-size: 1.5em;
+}
+
+#douban_content p{
+  color: black;
+  text-shadow:2px 2px 5px white;
+} 
 @media screen and (max-width: 980px){
   .waterfall{
   -moz-column-count:2; /* Firefox */
@@ -407,5 +445,14 @@ body a:hover {
   -moz-column-gap: 2em;
   -webkit-column-gap: 2em;
   column-gap: 2em;
+}
+
+.waterfall_douban{
+  -moz-column-count:2; /* Firefox */
+  -webkit-column-count:2; /* Safari 和 Chrome */
+  column-count:2;
+  -moz-column-gap: 1em;
+  -webkit-column-gap: 1em;
+  column-gap: 1em;
 }
 }

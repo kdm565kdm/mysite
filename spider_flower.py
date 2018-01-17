@@ -9,7 +9,6 @@ class beauty:
         res = request.urlopen(req)
         html = res.read()
         self.srcs = []
-        #self.html_code = html.decode('utf-8')
         self.json_data = json.loads(html)
     def get_src(self):
         results =  self.json_data["results"]

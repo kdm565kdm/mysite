@@ -20,5 +20,6 @@ urlpatterns = [
     #path('admin/', admin.site.urls),
     path('weather/',views.weather),
     path('beautiful/',views.beautiful),
+    path('douban/', views.douban),
     #path(r'ajax/',views.ajax),
 ]

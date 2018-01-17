@@ -5,6 +5,7 @@ from django.shortcuts import HttpResponse
 import json
 from weather_app import weather_info, infos_io
 from spider_flower import beauty
+from douban_spider import douban_movie
 import os
 
 currentpath = os.getcwd()
@@ -27,20 +28,23 @@ def weather(request):
         fp.close()
         return_json = {'city':city, 'detail':weather_dic}
         return HttpResponse(json.dumps(return_json), content_type='application/json')
-    print('a')
     return render(request,"weather.html",)
 
 
 def beautiful(request):
-    #beauty_url = 'http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/0'
-    #beauty_cursor = 0
     if request.method == "POST":
         page = request.POST.get("page", None)
         beauty_url = 'http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/'+page
         srcs = beauty(beauty_url, headers).get_src()
         return_json = {"srcs":srcs}
-        #beauty_cursor = beauty_cursor+1
-        #beauty_url = 'http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/'+str(beauty_cursor)
-        print(beauty_url)
         return HttpResponse(json.dumps(return_json), content_type='application/json')
         
+
+def douban(request):
+    if request.method == "POST":
+        page = request.POST.get("page", None)
+        url = 'https://movie.douban.com/top250?start='+page+'&filter='
+        print(url)
+        contents = douban_movie(url, headers).get_movie_info()
+        return_json = {"contents":contents}
+        return HttpResponse(json.dumps(return_json), content_type='application/json')

@@ -9,6 +9,7 @@ $(document).ready(function () {
     var dataX = [];
 
     beauty_page = 0;
+    douban_page = 0;
     var p=0,t=0; 
     $("#top").hide();
 	var trigger = $('.hamburger'),
@@ -39,7 +40,38 @@ $(document).ready(function () {
         }  
         setTimeout(function(){t = p;},0);         
     });
+    //豆瓣电影下拉监听函数
+    function douban_scroll(){
+        if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                    console.log("滚动条已经到达底部为" + $(document).scrollTop());
+                if(douban_page <=250){
+                    douban_page+=25;
+                    $.ajax({
+                        url:'/douban/',
+                        type:'POST',
+                        data:{"page":douban_page.toString()}, 
+                        async:true,    //或false,是否异步
+                        dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                        success:function(data){
+                        contents = data["contents"];
+                        (function() {for(var i=0, len=contents.length; i<len; i++ ){
+                               var tem='<div class="douban_item"><h3><span>'+contents[i]["title"]+'</span>&nbsp;&nbsp;<span>'+contents[i]["score"]+'</span></h3><a href="'+contents[i]["href"]+'"><img src="'+contents[i]["img_src"]+'"></a><p>'+contents[i]["relevant_info"]+'</p><p>'+contents[i]["summary"]+'</p></div>';
+                               $('#douban_content').append(tem);
 
+                           }
+                           })();
+
+                        },
+                        error:function(){
+                            console.log("error");
+                        }
+    
+                    });
+                }else{
+                    alert("已经到达底部！！");
+                }
+        }
+    }
     //美女图的下拉监听函数
     function beauty_scroll() {
                 //$(document).scrollTop() 获取垂直滚动的距离
@@ -220,6 +252,9 @@ $('[data-toggle="offcanvas"]').click(function () {
         $('#weather_app').css("display","block");
         $('#bottom').css("display","block");
         $(window).unbind("scroll", beauty_scroll);
+        $(window).unbind("scroll", douban_scroll);
+        $("html").animate({"scrollTop": "0px"},500); //IE,FF
+        $("body").animate({"scrollTop": "0px"},500);
 		city = $('#city').val();
             $.ajax(
 				{
@@ -294,6 +329,7 @@ $('[data-toggle="offcanvas"]').click(function () {
         $('#bottom').css("display","none");
         $('#beauty').css("display","block");
         $('body').attr('class','common');
+        $(window).unbind("scroll", douban_scroll);
         $.ajax({
             url:'/beautiful/',
             type:'POST',
@@ -322,8 +358,38 @@ $('[data-toggle="offcanvas"]').click(function () {
     });
 
     $('#moive').click(function(){
+        $('#weather_app').css("display","none");
+        $('#movie_top').css("display","block");
+        $('#bottom').css("display","none");
+        $('#beauty').css("display","none");
+        $('body').attr('class','douban');
+        $(window).unbind("scroll", beauty_scroll);
+        $.ajax({
+            url:'/douban/',
+            type:'POST',
+            data:{"page":douban_page.toString()},
+            async:true,    //或false,是否异步
+            dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success:function(data){
+                contents = data["contents"];
+                console.log(contents);
+                  (function() {for(var i=0, len=contents.length; i<len; i++ ){
+                               var tem='<div class="douban_item"><h3><span>'+contents[i]["title"]+'</span>&nbsp;&nbsp;<span>'+contents[i]["score"]+'</span></h3><a href="'+contents[i]["href"]+'"><img src="'+contents[i]["img_src"]+'"></a><p>'+contents[i]["relevant_info"]+'</p><p>'+contents[i]["summary"]+'</p></div>';
+                               $('#douban_content').append(tem);
+
+                           }
+                           })();
+
+            $(window).bind("scroll", douban_scroll);
+            },
+            error:function(){
+                console.log("error")
+            }
+    
+        });
         hamburger_cross();
         $('#wrapper').toggleClass('toggled');
+        douban_page+=25;
     });
 });
 
