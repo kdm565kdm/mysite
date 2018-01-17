@@ -8,6 +8,7 @@ $(document).ready(function () {
     var min = [];
     var dataX = [];
 
+    beauty_page = 0;
     var p=0,t=0; 
     $("#top").hide();
 	var trigger = $('.hamburger'),
@@ -38,6 +39,37 @@ $(document).ready(function () {
         }  
         setTimeout(function(){t = p;},0);         
     });
+
+    //美女图的下拉监听函数
+    function beauty_scroll() {
+                //$(document).scrollTop() 获取垂直滚动的距离
+                if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
+                    console.log("滚动条已经到达底部为" + $(document).scrollTop());
+                    beauty_page++;
+            $.ajax({
+                url:'/beautiful/',
+                type:'POST',
+                data:{"page":beauty_page.toString()}, 
+                async:true,    //或false,是否异步
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                success:function(data){
+                srcs = data['srcs'];
+                (function() {for(var i=0, len=srcs.length; i<len; i++ ){
+                             var tem =  '<div class="water_item"><img src="'+srcs[i]+'"></div>';
+                             $('#beauty_pics').append(tem);
+
+                         }
+                         })();
+
+                },
+                error:function(){
+                console.log("error");
+                }
+    
+            });
+
+                }
+            }
     //折线图函数
     function init_chart(canvas,datax,data1,data2){
         var myChart = echarts.init(canvas);
@@ -183,6 +215,11 @@ $('[data-toggle="offcanvas"]').click(function () {
 	});
 	//查询后				
 	$('#sub').click(function(){
+        $('#movie_top').css("display","none");
+        $('#beauty').css("display","none");
+        $('#weather_app').css("display","block");
+        $('#bottom').css("display","block");
+        $(window).unbind("scroll", beauty_scroll);
 		city = $('#city').val();
             $.ajax(
 				{
@@ -246,9 +283,48 @@ $('[data-toggle="offcanvas"]').click(function () {
                     	}
 				});
         $('#city').val('');
+        //弹出框复位
 		hamburger_cross();
 		$('#wrapper').toggleClass('toggled');
 	});
+
+    $('#b_pic').click(function(){
+        $('#weather_app').css("display","none");
+        $('#movie_top').css("display","none");
+        $('#bottom').css("display","none");
+        $('#beauty').css("display","block");
+        $('body').attr('class','common');
+        $.ajax({
+            url:'/beautiful/',
+            type:'POST',
+            data:{"page":beauty_page.toString()},
+            async:true,    //或false,是否异步
+            dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+            success:function(data){
+                srcs = data['srcs'];
+                (function() {for(var i=0, len=srcs.length; i<len; i++ ){
+                             var tem =  '<div class="water_item"><img src="'+srcs[i]+'"></div>';
+                             $('#beauty_pics').append(tem);
+
+                         }
+                         })();
+
+            $(window).bind("scroll", beauty_scroll);
+            },
+            error:function(){
+                console.log("error")
+            }
+    
+        });
+        hamburger_cross();
+        $('#wrapper').toggleClass('toggled');
+        beauty_page++;
+    });
+
+    $('#moive').click(function(){
+        hamburger_cross();
+        $('#wrapper').toggleClass('toggled');
+    });
 });
 
 

@@ -19,5 +19,6 @@ from weather import views
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('weather/',views.weather),
+    path('beautiful/',views.beautiful),
     #path(r'ajax/',views.ajax),
 ]

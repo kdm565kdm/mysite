@@ -16,19 +16,18 @@
     
         <!-- Sidebar -->
         <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
-        	<form action="/index/" method="post">
-                       <p id="siderbar_title">输入城市<p>
+                       <p id="siderbar_title">输入城市名查询天气信息<p>
 
                 	<div class="input-group">
                 		<input type="text"  class="form-control" name="city" maxlength="10" id="city">
                 		<span class="input-group-btn">
-                        <button class="btn btn-default" type="button" id="sub">查询</button>
+                        <button class="btn btn-primary" type="button" id="sub">查询</button>
                     	</span>
                 	</div>
-
-                
-
-            </form>
+                    <br>
+                    <button type="button" class="btn btn-primary btn-block" id="moive">豆瓣电影 Top</button>
+                    <br>
+                    <button type="button" class="btn btn-primary btn-block" id="b_pic">美图</button>
         </nav>
         <!-- /#sidebar-wrapper -->
 
@@ -39,7 +38,16 @@
             <span class="hamb-middle"></span>
             <span class="hamb-bottom"></span>
           </button>
-            <div class="container">
+          <div class = "waterfall_outer" id="beauty">
+            <div class="waterfall" id="beauty_pics">
+            </div>
+          </div>
+          <div class = "container" id="movie_top">
+            <div class="row" id="beauty_pics">
+            </div>
+          </div>
+            <div class="container" id="weather_app">
+
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <h1 id="city_name">{{ city }}</h1>
