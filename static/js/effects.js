@@ -40,6 +40,8 @@ $(document).ready(function () {
         }  
         setTimeout(function(){t = p;},0);         
     });
+
+
     //豆瓣电影下拉监听函数
     function douban_scroll(){
         if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
@@ -87,12 +89,18 @@ $(document).ready(function () {
                 success:function(data){
                 srcs = data['srcs'];
                 (function() {for(var i=0, len=srcs.length; i<len; i++ ){
-                             var tem =  '<div class="water_item"><a href="'+srcs[i]+'"><img src="'+srcs[i]+'"></a></div>';
+                             var tem =  '<div class="water_item"><img src="'+srcs[i]+'" data-toggle="modal" data-target="#myModal" class="img_b"></div>';
                              $('#beauty_pics').append(tem);
 
                          }
                          })();
-
+                $('.img_b').click(function(){
+                    var _this = $(this);
+                    var src = _this.attr("src");
+                    img = '<img src="'+src+'" class="img-responsive">'
+                    $('#modal').html(img);
+                    }
+                );
                 },
                 error:function(){
                 console.log("error");
@@ -339,13 +347,21 @@ $('[data-toggle="offcanvas"]').click(function () {
             success:function(data){
                 srcs = data['srcs'];
                 (function() {for(var i=0, len=srcs.length; i<len; i++ ){
-                             var tem =  '<div class="water_item"><a href="'+srcs[i]+'"><img src="'+srcs[i]+'"></a></div>';
+                             var tem =  '<div class="water_item"><img src="'+srcs[i]+'" data-toggle="modal" data-target="#myModal" class="img_b"></div>';
                              $('#beauty_pics').append(tem);
 
                          }
                          })();
 
             $(window).bind("scroll", beauty_scroll);
+            //遮盖罩，放大图事件
+            $('.img_b').click(function(){
+                    var _this = $(this);
+                    var src = _this.attr("src");
+                    img = '<img src="'+src+'" class="img-responsive">'
+                    $('#modal').html(img);
+                    }
+                );
             },
             error:function(){
                 console.log("error")
