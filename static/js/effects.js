@@ -1,19 +1,21 @@
 var canvas = document.getElementById('canvas');
 $(document).ready(function () {
+    //为了让定位只执行一次而声明的开关
 	var lock = true;
-	var city = '天津';
+    //背景图片等变量
 	var bg_value;
-            
+    //温度最大值和最小值的数组        
     var max = [];
     var min = [];
+    //echarts X轴的日期
     var dataX = [];
-
+    //美女图和豆瓣电影的初始页
     beauty_page = 0;
     douban_page = 0;
     var p=0,t=0; 
     $("#top").hide();
-	var trigger = $('.hamburger'),
-		overlay = $('.overlay'),
+    //左侧的弹出菜单按钮
+	var trigger = $('#menu'),
 		isClosed = false;
 
 	trigger.click(function () {
@@ -45,7 +47,7 @@ $(document).ready(function () {
     //豆瓣电影下拉监听函数
     function douban_scroll(){
         if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
-                    console.log("滚动条已经到达底部为" + $(document).scrollTop());
+                    //console.log("滚动条已经到达底部为" + $(document).scrollTop());
                 if(douban_page <=250){
                     douban_page+=25;
                     $.ajax({
@@ -78,7 +80,7 @@ $(document).ready(function () {
     function beauty_scroll() {
                 //$(document).scrollTop() 获取垂直滚动的距离
                 if ($(document).scrollTop() >= $(document).height() - $(window).height()) {
-                    console.log("滚动条已经到达底部为" + $(document).scrollTop());
+                    //console.log("滚动条已经到达底部为" + $(document).scrollTop());
                     beauty_page++;
             $.ajax({
                 url:'/beautiful/',
@@ -190,24 +192,22 @@ $(document).ready(function () {
     }
 
 
-
+    //改变菜单按钮的图标函数
 	function hamburger_cross() {
 
 		if (isClosed == true) {          
-		  overlay.hide();
 		  trigger.removeClass('is-open');
 		  trigger.addClass('is-closed');
 		  isClosed = false;
 		} 
         else {   
-		  overlay.show();
 		  trigger.removeClass('is-closed');
 		  trigger.addClass('is-open');
 		  isClosed = true;
 		}
 	}
 		  
-$('[data-toggle="offcanvas"]').click(function () {
+$('#menu').click(function () {
 	$('#wrapper').toggleClass('toggled');
 	});
 //定位城市
